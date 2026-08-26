@@ -1,0 +1,41 @@
+.favorites-page{
+padding:40px;
+text-align:center;
+background-image: url('https://static.vecteezy.com/system/resources/thumbnails/049/855/505/small/nature-background-high-resolution-wallpaper-for-a-serene-and-stunning-view-free-photo.jpg');
+background-size: cover;
+}
+
+.favorites-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:30px;
+}
+
+.favorite-card{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.favorite-card img{
+width:200px;
+height:290px;
+object-fit:cover;
+border-radius:8px;
+}
+
+.favorite-card button{
+margin-top:10px;
+background:#ef4444;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.favorite-card button:hover{
+background:#dc2626;
+}

@@ -1,0 +1,33 @@
+.login{
+display:flex;
+justify-content:center;
+align-items:center;
+height:80vh;
+background-image: url('https://static.vecteezy.com/system/resources/thumbnails/049/855/505/small/nature-background-high-resolution-wallpaper-for-a-serene-and-stunning-view-free-photo.jpg');
+background-size: cover;
+}
+
+.box{
+display:flex;
+flex-direction:column;
+gap:10px;
+padding:30px;
+border:1px solid #ccc;
+border-radius:10px;
+}
+
+.box input{
+padding:10px;
+}
+
+.box button{
+padding:10px;
+background:green;
+color:white;
+border:none;
+box-shadow: 2px 4px 6px rgba(210, 16, 16, 0.1);
+}
+.box button:hover{
+background:#139b80;
+box-shadow: 4px 6px 8px rgba(210, 16, 16, 0.2);
+}

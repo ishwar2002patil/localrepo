@@ -1,0 +1,22 @@
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#222;
+color:white;
+padding:15px;
+}
+
+.links{
+display:flex;
+gap:20px;
+}
+
+.links a{
+color:white;
+text-decoration:none;
+}
+
+.user{
+color:yellow;
+}
