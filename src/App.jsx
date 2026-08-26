@@ -5,7 +5,7 @@ import Navbar from "./assets/component/Navbar";
 import Footer from "./assets/pages/Footer";
 import Home from "./assets/pages/Home";
 import Favorites from "./assets/pages/Favorites";
-import Login from "./assets/pages/Login";
+import Login from "./assets/pages/login";
 
 function App() {
 
