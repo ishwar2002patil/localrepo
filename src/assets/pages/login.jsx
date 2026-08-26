@@ -1,42 +1,58 @@
-import { useState } from "react"
-import "./login.css"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
-function Login({setUser}){
+function Login({ setUser }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
-  const [name,setName] = useState("")
+  const navigate = useNavigate();
 
-  const login = (e)=>{
-  
+  const login = (e) => {
+    e.preventDefault();
 
-    localStorage.setItem("user",name)
+    if (name.trim() === "") {
+      alert("Please enter your name.");
+      return;
+    }
 
-    setUser(name)
-  }
+    // Save user
+    localStorage.setItem("user", name);
+    localStorage.setItem("email", email);
 
-  return(
+    setUser(name);
 
+    // Clear inputs
+    setName("");
+    setEmail("");
+
+    // Go to Home page automatically
+    navigate("/");
+  };
+
+  return (
     <div className="login">
-
       <form onSubmit={login} className="box">
-
         <h2>Login</h2>
 
         <input
-        type="text"
-        placeholder="Enter name"
-        onChange={(e)=>setName(e.target.value)}
-        />
-        <input type="text"
-        placeholder="Enter email" 
+          type="text"
+          placeholder="Enter name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
-        <button type="submit" >Login</button>
+        <input
+          type="email"
+          placeholder="Enter email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
+        <button type="submit">Login</button>
       </form>
-
     </div>
-
-  )
+  );
 }
 
-export default Login
+export default Login;

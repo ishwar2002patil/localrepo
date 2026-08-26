@@ -1,45 +1,87 @@
-import { useEffect, useState } from "react"
-import "./Cart.css"
+import { useEffect, useState } from "react";
+import "./Cart.css";
 
-function Cart(){
+function Cart() {
+  const [cart, setCart] = useState([]);
+  const [name, setName] = useState("");
+  const [card, setCard] = useState("");
+  const [location, setLocation] = useState("");
 
-  const [cart,setCart] = useState([])
-  const [name,setName] = useState("")
-  const [card,setCard] = useState("")
-  const [location,setLocation] = useState("")
+  // Load Cart
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(data);
+  }, []);
 
-  const price = 1000
+  // Save Cart
+  const updateCart = (updatedCart) => {
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
 
-  useEffect(()=>{
-    const data = JSON.parse(localStorage.getItem("cart")) || []
-    setCart(data)
-  },[])
+  // Increase Quantity
+  const increaseQty = (id) => {
+    const updated = cart.map((book) =>
+      book.id === id
+        ? { ...book, quantity: book.quantity + 1 }
+        : book
+    );
+    updateCart(updated);
+  };
 
-  const removeCart = (index) => {
-    const updated = cart.filter((_,i)=> i !== index)
-    setCart(updated)
-    localStorage.setItem("cart",JSON.stringify(updated))
-  }
+  // Decrease Quantity
+  const decreaseQty = (id) => {
+    const updated = cart
+      .map((book) =>
+        book.id === id
+          ? { ...book, quantity: book.quantity - 1 }
+          : book
+      )
+      .filter((book) => book.quantity > 0);
 
-  const total = cart.length * price
+    updateCart(updated);
+  };
 
+  // Remove Book
+  const removeCart = (id) => {
+    const updated = cart.filter((book) => book.id !== id);
+    updateCart(updated);
+  };
+
+  // Total Books Count
+  const totalBooks = cart.reduce(
+    (sum, book) => sum + book.quantity,
+    0
+  );
+
+  // Grand Total Price
+  const totalPrice = cart.reduce(
+    (sum, book) => sum + book.price * book.quantity,
+    0
+  );
+
+  // Checkout
   const buyBooks = () => {
-
-    if(name === "" || card === "" || location === ""){
-      console.log("Please fill all details")
-      return
+    if (name.trim() === "" || card.trim() === "" || location.trim() === "") {
+      alert("Please fill all details.");
+      return;
     }
 
-    alert("Books bought successfully... Thank you for buying!")
+    alert("🎉 Books bought successfully! Thank you for shopping.");
 
-    localStorage.removeItem("cart")
-    setCart([])
-  }
+    localStorage.removeItem("cart");
+    setCart([]);
+    setName("");
+    setCard("");
+    setLocation("");
+  };
 
-  return(
+  return (
     <div className="cart-page">
 
-      <h2>Buy Books</h2>
+      <h2>🛒 Shopping Cart</h2>
+
+      <h3>Total Books: {totalBooks}</h3>
 
       {/* User Details */}
       <div className="user-form">
@@ -48,21 +90,21 @@ function Cart(){
           type="text"
           placeholder="Enter Your Name"
           value={name}
-          onChange={(e)=>setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <input
           type="text"
           placeholder="Enter Card Number"
           value={card}
-          onChange={(e)=>setCard(e.target.value)}
+          onChange={(e) => setCard(e.target.value)}
         />
 
         <input
           type="text"
           placeholder="Enter Delivery Location"
           value={location}
-          onChange={(e)=>setLocation(e.target.value)}
+          onChange={(e) => setLocation(e.target.value)}
         />
 
       </div>
@@ -70,37 +112,66 @@ function Cart(){
       {/* Cart Books */}
       <div className="cart-container">
 
-        {cart.map((book,index)=>(
-          
-          <div key={index} className="cart-card">
+        {cart.length > 0 ? (
+          cart.map((book) => (
+            <div key={book.id} className="cart-card">
 
-            <img src={book.image} alt={book.title} />
+              <img src={book.image} alt={book.title} />
 
-            <h3>{book.title}</h3>
+              <h3>{book.title}</h3>
 
-            <p>{book.author}</p>
+              <p>Author: {book.author}</p>
 
-            <p>Price: ₹{price}</p>
+              <p>Price: ₹{book.price}</p>
 
-            <button onClick={()=>removeCart(index)}>
-              Remove
-            </button>
+              {/* Quantity */}
+              <div className="qty-box">
 
-          </div>
+                <button onClick={() => decreaseQty(book.id)}>
+                  −
+                </button>
 
-        ))}
+                <span>{book.quantity}</span>
+
+                <button onClick={() => increaseQty(book.id)}>
+                  +
+                </button>
+
+              </div>
+
+              {/* Total Price for One Book */}
+              <p>
+                Total: <b>₹{book.price * book.quantity}</b>
+              </p>
+
+              <button
+                className="remove-btn"
+                onClick={() => removeCart(book.id)}
+              >
+                Remove
+              </button>
+
+            </div>
+          ))
+        ) : (
+          <h2>Your Cart is Empty 📚</h2>
+        )}
 
       </div>
 
-      {/* Total */}
-      <h3>Total Price: ₹{total}</h3>
+      {/* Grand Total */}
+      {cart.length > 0 && (
+        <>
+          <h2>Total Price: ₹{totalPrice}</h2>
 
-      <button className="buy-btn" onClick={buyBooks}>
-        Checkout
-      </button>
+          <button className="buy-btn" onClick={buyBooks}>
+            Checkout
+          </button>
+        </>
+      )}
 
     </div>
-  )
+  );
 }
 
-export default Cart
+export default Cart;
