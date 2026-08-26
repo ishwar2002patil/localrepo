@@ -6,7 +6,7 @@ function Navbar({user}){
   return(
     <nav className="navbar">
 
-      <h2>📚 Book Store</h2>
+      <h2>📚 Book Store||buy Book|| ishwar Books</h2>
 
       <div className="links">
         <Link to="/">Home</Link>
