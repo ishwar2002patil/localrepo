@@ -1,6 +1,6 @@
 import { useState } from "react";
 import books from "../../data/books";
-import Bookcard from "../component/bookcard";
+import Bookcard from "../component/Bookcard";
 import "./Home.css"
 
 function Home() {
